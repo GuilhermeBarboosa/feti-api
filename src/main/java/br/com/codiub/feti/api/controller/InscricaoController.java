@@ -8,6 +8,7 @@ import br.com.codiub.feti.model.entity.Inscricao;
 import br.com.codiub.feti.model.entity.InscricaoResposta;
 import br.com.codiub.feti.model.input.InscricaoInput;
 import br.com.codiub.feti.model.input.PerguntaRespostaInput;
+import br.com.codiub.feti.model.output.InscricaoAllOutput;
 import br.com.codiub.feti.model.output.InscricaoOutput;
 import br.com.codiub.feti.model.output.InscricaoRespostaOutput;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class InscricaoController {
         List<InscricaoRespostaOutput> inscricaoRespostaOutput = listInscricaoResposta.stream()
                 .map(InscricaoRespostaOutput::new)
                 .collect(Collectors.toList());
-        InscricaoOutput inscricaoOutput = new InscricaoOutput(inscricaoCreated, inscricaoRespostaOutput);
+        InscricaoAllOutput inscricaoOutput = new InscricaoAllOutput(inscricaoCreated, inscricaoRespostaOutput);
 
 
         return ResponseEntity.ok(null);
@@ -78,7 +79,6 @@ public class InscricaoController {
 
     @GetMapping("/all/{id}")
     public ResponseEntity<List<InscricaoOutput>>  getByAllIdUser(@PathVariable Long id) {
-        System.out.println("id: " + id);
         List<Inscricao> inscricaos = inscricaoService.findByAllUser(id);
         List<InscricaoOutput> responseDTOS = inscricaos.stream()
                 .map(inscricao -> new InscricaoOutput(inscricao))
@@ -115,13 +115,13 @@ public class InscricaoController {
     }
 
     @GetMapping("/infoAll/{id}")
-    public ResponseEntity<?> getInscricao(@PathVariable Long id) {
+    public ResponseEntity<InscricaoAllOutput> getInscricao(@PathVariable Long id) {
         Inscricao inscricao = inscricaoService.findById(id);
         List<InscricaoResposta> inscricaoResposta = inscricaoRespostaService.findByInscricao(inscricao.getId());
         List<InscricaoRespostaOutput> responseDTOS = inscricaoResposta.stream()
                 .map(InscricaoRespostaOutput::new)
                 .collect(Collectors.toList());
-        InscricaoOutput inscricaoOutput = new InscricaoOutput(inscricao, responseDTOS);
+        InscricaoAllOutput inscricaoOutput = new InscricaoAllOutput(inscricao, responseDTOS);
         return ResponseEntity.ok(inscricaoOutput);
     }
 }

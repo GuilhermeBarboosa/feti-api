@@ -45,6 +45,7 @@ public class UserController {
             if(userInput.getRole() == 1){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não é possivel cadastrar um candidato como administrador");
             }else {
+
                 User createdUser = userService.save(userInput);
                 UserOutput userOutput = new UserOutput(createdUser);
                 return ResponseEntity.ok(userOutput);

@@ -51,6 +51,7 @@ public class AlternativaService {
         Alternativa alternativa = findById(id);
         alternativa.setAlternativa(alternativaInput.getAlternativa());
         alternativa.setPergunta(perguntaService.findById(alternativaInput.getPergunta()));
+        alternativa.setPontuacao(alternativaInput.getPontuacao());
         return alternativaRepository.save(alternativa);
     }
 
@@ -77,6 +78,10 @@ public class AlternativaService {
 
     public List<Alternativa> listAlternativasWithFuncao(Long idFuncao) {
         return alternativaRepository.findAlternativasWithFuncao(idFuncao);
+    }
+
+    public List<Alternativa> getAlternativaByFuncao(Long id) {
+        return alternativaRepository.getAlternativaByPergunta(id);
     }
 }
 

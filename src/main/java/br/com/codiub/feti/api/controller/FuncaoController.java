@@ -82,7 +82,6 @@ public class FuncaoController {
     @PostMapping("/verifyInscricao")
     public ResponseEntity<?> getVerifyEdital(@Valid @RequestBody VerifyInput verifyInput) {
 
-        System.out.println("verifyInput: " + verifyInput.toString());
         Optional<Inscricao> inscricaoOptional = this.inscricaoService.getVerifyEdital(verifyInput);
 
         if (inscricaoOptional.isPresent()) {

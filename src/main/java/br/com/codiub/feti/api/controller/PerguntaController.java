@@ -59,20 +59,21 @@ public class PerguntaController {
         return ResponseEntity.ok(perguntaOutput);
     }
 
+    @GetMapping("/funcao/{id}")
+    public ResponseEntity<List<PerguntaOutput>> getPerguntaByFuncao(@PathVariable Long id) {
+        List<Pergunta> perguntas = perguntaService.listPerguntasWithFuncao(id);
+        List<PerguntaOutput> responseDTOS = perguntas.stream()
+                .map(PerguntaOutput::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDTOS);
+    }
+
     @GetMapping("/desativado/{id}")
     public ResponseEntity<PerguntaOutput> getByIdDesactived(@PathVariable Long id) {
         Pergunta pergunta = perguntaService.findByIdDesactived(id);
         PerguntaOutput perguntaOutput = new PerguntaOutput(pergunta);
         return ResponseEntity.ok(perguntaOutput);
     }
-//    @GetMapping("/cpf/{cpf}")
-//    public ResponseEntity<List<PerguntaOutput>> getByCpf(@PathVariable String cpf) {
-//        List<Pergunta> perguntas = perguntaService.findByCpf(cpf);
-//        List<PerguntaOutput> responseDTOS = perguntas.stream()
-//                .map(PerguntaOutput::new)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(responseDTOS);
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid PerguntaInput perguntaInput) {

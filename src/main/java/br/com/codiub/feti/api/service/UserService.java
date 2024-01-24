@@ -53,6 +53,12 @@ public class UserService implements UserDetailsService {
             user.setEmail(userInput.getEmail());
             user.setPassword(passwordEncoder.encode(userInput.getPassword()));
             user.setRole(roleService.findById(userInput.getRole()));
+            user.setBairro(userInput.getBairro());
+            user.setCep(userInput.getCep());
+            user.setCidade(userInput.getCidade());
+            user.setCpf(userInput.getCpf());
+            user.setData_de_nascimento(userInput.getData_de_nascimento());
+            user.setTelefone(userInput.getTelefone());
             return userRepository.save(user);
         }
     }

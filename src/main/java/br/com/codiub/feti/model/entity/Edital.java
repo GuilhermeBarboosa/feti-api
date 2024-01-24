@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -43,8 +44,7 @@ public class Edital extends DefaultEntity implements Serializable {
     private Integer qtd_vagas;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "arquivo", nullable = false)
+    @Column(name = "arquivo", nullable = true)
     private String arquivo;
 
 }

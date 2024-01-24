@@ -23,4 +23,7 @@ public interface AlternativaRepository extends JpaRepository<Alternativa, Long> 
 
     @Query("select a from Alternativa a where a.pergunta.funcao.id = :idFuncao and a.actived = true and a.pergunta.actived = true and a.pergunta.funcao.actived = true")
     List<Alternativa> findAlternativasWithFuncao(Long idFuncao);
+
+    @Query("select a from Alternativa a where a.pergunta.id = :id and a.actived = true")
+    List<Alternativa> getAlternativaByPergunta(Long id);
 }

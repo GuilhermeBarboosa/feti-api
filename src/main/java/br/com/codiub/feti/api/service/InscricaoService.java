@@ -65,6 +65,14 @@ public class InscricaoService {
         inscricao.setEdital(editalService.findById(inscricaoInput.getEdital()));
         inscricao.setFuncao(funcaoService.findById(inscricaoInput.getFuncao()));
         inscricao.setUsuario(userService.findById(inscricaoInput.getUsuario()));
+
+        List<PerguntaRespostaInput> perguntaRespostaInput = inscricaoInput.getPerguntaResposta();
+        int totalPontos = 0;
+        for(PerguntaRespostaInput p : perguntaRespostaInput){
+            totalPontos += p.getPontuacao();
+        }
+        inscricao.setPontuacao((long) totalPontos);
+
         return inscricaoRepository.save(inscricao);
     }
 

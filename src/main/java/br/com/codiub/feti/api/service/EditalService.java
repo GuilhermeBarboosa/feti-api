@@ -40,6 +40,9 @@ public class EditalService {
     public Edital updateById(Long id, EditalInput editalInput) {
         Edital edital = findById(id);
         edital.setEdital(editalInput.getEdital());
+        edital.setData_inicio(editalInput.getData_inicio());
+        edital.setData_fim(editalInput.getData_fim());
+        edital.setQtd_vagas(editalInput.getQtd_vagas());
         return editalRepository.save(edital);
     }
 

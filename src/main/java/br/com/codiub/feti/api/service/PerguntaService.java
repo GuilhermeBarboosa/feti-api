@@ -72,6 +72,7 @@ public class PerguntaService {
     public List<Pergunta> listPerguntasWithFuncao(Long idFuncao) {
         return perguntaRepository.listPerguntasWithFuncao(idFuncao);
     }
+
 }
 
 

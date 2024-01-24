@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,6 +32,12 @@ public class EditalController {
         Edital createdEdital = editalService.save(editalInput);
         EditalOutput editalOutput = new EditalOutput(createdEdital);
         return ResponseEntity.ok(editalOutput);
+    }
+
+    @PostMapping("/uploadFile")
+    public ResponseEntity<?> saveFile(@RequestParam("file") MultipartFile file) {
+        System.out.println(file.getOriginalFilename());
+        return ResponseEntity.ok("");
     }
 
     @GetMapping

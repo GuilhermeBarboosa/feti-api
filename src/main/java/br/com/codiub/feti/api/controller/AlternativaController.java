@@ -46,6 +46,15 @@ public class AlternativaController {
         return ResponseEntity.ok(responseDTOS);
     }
 
+    @PostMapping("/pergunta/{id}")
+    public ResponseEntity<List<AlternativaOutput>> getAlternativaByFuncao(@PathVariable Long id) {
+        List<Alternativa> alternativas = alternativaService.getAlternativaByFuncao(id);
+        List<AlternativaOutput> responseDTOS = alternativas.stream()
+                .map(AlternativaOutput::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDTOS);
+    }
+
     @GetMapping("/desativado")
     public ResponseEntity<List<AlternativaOutput>> listAllAlternativa() {
         List<Alternativa> alternativas = alternativaService.listAllAlternativaDesactived();
