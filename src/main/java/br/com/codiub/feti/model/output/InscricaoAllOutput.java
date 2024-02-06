@@ -26,6 +26,8 @@ public class InscricaoAllOutput extends DefaultEntityDTO {
     private Long idFuncao;
     private String funcao;
     private Long pontuacao;
+    private String situacao;
+    private Long idSituacao;
 
     private List<InscricaoRespostaOutput> inscricaoResposta;
     public InscricaoAllOutput(Inscricao inscricao, List<InscricaoRespostaOutput> inscricaoRespostaOutput) {
@@ -41,6 +43,8 @@ public class InscricaoAllOutput extends DefaultEntityDTO {
         this.idFuncao = inscricao.getFuncao().getId();
         this.funcao = inscricao.getFuncao().getFuncao();
         this.pontuacao = inscricao.getPontuacao();
+        this.situacao = inscricao.getSituacao().getSituacao();
+        this.idSituacao = inscricao.getSituacao().getId();
         this.inscricaoResposta = inscricaoRespostaOutput;
         this.setActived(inscricao.getActived());
         this.setCreated(inscricao.getCreated());
@@ -55,6 +59,8 @@ public class InscricaoAllOutput extends DefaultEntityDTO {
         this.edital = inscricao.getEdital().getEdital();
         this.idFuncao = inscricao.getFuncao().getId();
         this.funcao = inscricao.getFuncao().getFuncao();
+        this.situacao = inscricao.getSituacao().getSituacao();
+        this.idSituacao = inscricao.getSituacao().getId();
         this.pontuacao = inscricao.getPontuacao();
         this.setActived(inscricao.getActived());
         this.setCreated(inscricao.getCreated());

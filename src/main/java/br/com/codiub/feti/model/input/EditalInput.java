@@ -27,5 +27,5 @@ public class EditalInput {
 
    private Integer qtd_vagas;
 
-   private File arquivo;
+//   private File arquivo;
 }

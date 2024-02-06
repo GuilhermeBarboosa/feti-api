@@ -45,22 +45,26 @@ public class UserService implements UserDetailsService {
     }
 
     public User updateById(Long id, UserInput userInput) {
+        System.out.println(userInput.toString());
         User user = findById(id);
+        String password = "";
         if (userInput.getPassword().equals(user.getPassword())) {
-            return null;
+            password = userInput.getPassword();
         } else {
-            user.setName(userInput.getName());
-            user.setEmail(userInput.getEmail());
-            user.setPassword(passwordEncoder.encode(userInput.getPassword()));
-            user.setRole(roleService.findById(userInput.getRole()));
-            user.setBairro(userInput.getBairro());
-            user.setCep(userInput.getCep());
-            user.setCidade(userInput.getCidade());
-            user.setCpf(userInput.getCpf());
-            user.setData_de_nascimento(userInput.getData_de_nascimento());
-            user.setTelefone(userInput.getTelefone());
-            return userRepository.save(user);
+            password = passwordEncoder.encode(userInput.getPassword());
         }
+
+        user.setName(userInput.getName());
+        user.setEmail(userInput.getEmail());
+        user.setPassword(password);
+        user.setRole(roleService.findById(userInput.getRole()));
+        user.setBairro(userInput.getBairro());
+        user.setCep(userInput.getCep());
+        user.setCidade(userInput.getCidade());
+        user.setCpf(userInput.getCpf());
+        user.setData_de_nascimento(userInput.getData_de_nascimento());
+        user.setTelefone(userInput.getTelefone());
+        return userRepository.save(user);
     }
 
     public User deactivateById(Long id) {
@@ -93,12 +97,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         Role role = roleService.findById(user.getRole().getId());
 
-        return org.springframework.security.core.userdetails.User
-                .builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .roles(role.getRole())
-                .build();
+        return org.springframework.security.core.userdetails.User.builder().username(user.getEmail()).password(user.getPassword()).roles(role.getRole()).build();
     }
 
     public User autenticar(User user) {

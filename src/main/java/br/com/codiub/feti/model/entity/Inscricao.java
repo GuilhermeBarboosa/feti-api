@@ -43,6 +43,7 @@ public class Inscricao extends DefaultEntity implements Serializable {
     private Long pontuacao;
 
 //    @NotNull
-//    @Column(name = "situacao", nullable = false)
-//    private Situacao situacao;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "situacao", nullable = false)
+    private Situacao situacao;
 }

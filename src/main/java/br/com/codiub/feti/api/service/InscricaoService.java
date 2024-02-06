@@ -1,6 +1,7 @@
 package br.com.codiub.feti.api.service;
 
 import br.com.codiub.feti.model.entity.Inscricao;
+import br.com.codiub.feti.model.input.EditInscricaoInput;
 import br.com.codiub.feti.model.input.InscricaoInput;
 import br.com.codiub.feti.model.input.PerguntaRespostaInput;
 import br.com.codiub.feti.model.input.VerifyInput;
@@ -30,6 +31,8 @@ public class InscricaoService {
     @Autowired
     private EditalService editalService;
     @Autowired
+    private SituacaoService situacaoService;
+    @Autowired
     private FuncaoService funcaoService;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,11 +42,12 @@ public class InscricaoService {
     public Inscricao save(InscricaoInput inscricaoInput) {
         List<PerguntaRespostaInput> perguntaRespostaInput = inscricaoInput.getPerguntaResposta();
         int totalPontos = 0;
-        for(PerguntaRespostaInput p : perguntaRespostaInput){
+        for (PerguntaRespostaInput p : perguntaRespostaInput) {
             totalPontos += p.getPontuacao();
         }
 
         Inscricao inscricaoCreated = modelMapper.map(inscricaoInput, Inscricao.class);
+        inscricaoCreated.setSituacao(situacaoService.findById(inscricaoInput.getSituacao()));
         inscricaoCreated.setEdital(editalService.findById(inscricaoInput.getEdital()));
         inscricaoCreated.setFuncao(funcaoService.findById(inscricaoInput.getFuncao()));
         inscricaoCreated.setUsuario(userService.findById(inscricaoInput.getUsuario()));
@@ -60,18 +64,10 @@ public class InscricaoService {
         return inscricaoRepository.findById(id).orElseThrow(() -> new RuntimeException("Inscricao não encontrada"));
     }
 
-    public Inscricao updateById(Long id, InscricaoInput inscricaoInput) {
+    public Inscricao updateById(Long id, EditInscricaoInput inscricaoInput) {
         Inscricao inscricao = findById(id);
-        inscricao.setEdital(editalService.findById(inscricaoInput.getEdital()));
-        inscricao.setFuncao(funcaoService.findById(inscricaoInput.getFuncao()));
-        inscricao.setUsuario(userService.findById(inscricaoInput.getUsuario()));
-
-        List<PerguntaRespostaInput> perguntaRespostaInput = inscricaoInput.getPerguntaResposta();
-        int totalPontos = 0;
-        for(PerguntaRespostaInput p : perguntaRespostaInput){
-            totalPontos += p.getPontuacao();
-        }
-        inscricao.setPontuacao((long) totalPontos);
+        inscricao.setPontuacao(inscricaoInput.getPontuacao());
+        inscricao.setSituacao(situacaoService.findById(inscricaoInput.getSituacao()));
 
         return inscricaoRepository.save(inscricao);
     }
@@ -108,6 +104,13 @@ public class InscricaoService {
 
     public List<Inscricao> findByAllUser(Long id) {
         return inscricaoRepository.findByAllUser(id);
+    }
+
+    public Inscricao updateByPontuacao(Long id, Long pontuacao) {
+        Inscricao inscricao = findById(id);
+        inscricao.setPontuacao(pontuacao);
+
+        return inscricaoRepository.save(inscricao);
     }
 }
 

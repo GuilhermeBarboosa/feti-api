@@ -21,6 +21,8 @@ public class InscricaoOutput extends DefaultEntityDTO {
     private Long idFuncao;
     private String funcao;
     private Long pontuacao;
+    private String situacao;
+    private Long idSituacao;
 
     public InscricaoOutput(Inscricao inscricao) {
         this.id = inscricao.getId();
@@ -31,6 +33,8 @@ public class InscricaoOutput extends DefaultEntityDTO {
         this.idFuncao = inscricao.getFuncao().getId();
         this.funcao = inscricao.getFuncao().getFuncao();
         this.pontuacao = inscricao.getPontuacao();
+        this.situacao = inscricao.getSituacao().getSituacao();
+        this.idSituacao = inscricao.getSituacao().getId();
         this.setActived(inscricao.getActived());
         this.setCreated(inscricao.getCreated());
         this.setUpdated(inscricao.getUpdated());

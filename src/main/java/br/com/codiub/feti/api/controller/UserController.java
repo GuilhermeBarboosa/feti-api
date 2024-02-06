@@ -42,9 +42,9 @@ public class UserController {
         if (userService.findByEmail(userInput.getEmail()).isPresent()) {
             return new ResponseEntity<String>("Email já cadastrado", HttpStatus.BAD_REQUEST);
         } else {
-            if(userInput.getRole() == 1){
+            if (userInput.getRole() == 1) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não é possivel cadastrar um candidato como administrador");
-            }else {
+            } else {
 
                 User createdUser = userService.save(userInput);
                 UserOutput userOutput = new UserOutput(createdUser);
@@ -96,12 +96,10 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid UserInput userInput) {
         User updatedUser = userService.updateById(id, userInput);
-        if (updatedUser == null) {
-            return new ResponseEntity<String>("Senha igual a anterior", HttpStatus.BAD_REQUEST);
-        } else {
-            UserOutput userOutput = new UserOutput(updatedUser);
-            return ResponseEntity.ok(userOutput);
-        }
+
+        UserOutput userOutput = new UserOutput(updatedUser);
+        return ResponseEntity.ok(userOutput);
+
     }
 
     @PutMapping("/ativar/{id}")

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-@Table(name = "situacoes")
+@Table(name = "situacao")
 public class Situacao extends DefaultEntity implements Serializable {
 
     @Id

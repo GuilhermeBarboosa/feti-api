@@ -17,5 +17,6 @@ public class InscricaoInput {
     private Long edital;
     private Long funcao;
     private Long usuario;
+    private Long situacao = 1L; //DE ACORDO COM O BANCO
     private List<PerguntaRespostaInput> perguntaResposta;
 }

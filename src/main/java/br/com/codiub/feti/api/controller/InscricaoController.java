@@ -6,6 +6,7 @@ import br.com.codiub.feti.api.service.InscricaoService;
 import br.com.codiub.feti.api.service.UserService;
 import br.com.codiub.feti.model.entity.Inscricao;
 import br.com.codiub.feti.model.entity.InscricaoResposta;
+import br.com.codiub.feti.model.input.EditInscricaoInput;
 import br.com.codiub.feti.model.input.InscricaoInput;
 import br.com.codiub.feti.model.input.PerguntaRespostaInput;
 import br.com.codiub.feti.model.output.InscricaoAllOutput;
@@ -78,10 +79,10 @@ public class InscricaoController {
     }
 
     @GetMapping("/all/{id}")
-    public ResponseEntity<List<InscricaoOutput>>  getByAllIdUser(@PathVariable Long id) {
-        List<Inscricao> inscricaos = inscricaoService.findByAllUser(id);
-        List<InscricaoOutput> responseDTOS = inscricaos.stream()
-                .map(inscricao -> new InscricaoOutput(inscricao))
+    public ResponseEntity<List<InscricaoOutput>> getByAllIdUser(@PathVariable Long id) {
+        List<Inscricao> inscricao = inscricaoService.findByAllUser(id);
+        List<InscricaoOutput> responseDTOS = inscricao.stream()
+                .map(InscricaoOutput::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDTOS);
     }
@@ -94,7 +95,7 @@ public class InscricaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid InscricaoInput inscricaoInput) {
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid EditInscricaoInput inscricaoInput) {
         Inscricao updatedInscricao = inscricaoService.updateById(id, inscricaoInput);
         InscricaoOutput inscricaoOutput = new InscricaoOutput(updatedInscricao);
         return ResponseEntity.ok(inscricaoOutput);
@@ -124,4 +125,6 @@ public class InscricaoController {
         InscricaoAllOutput inscricaoOutput = new InscricaoAllOutput(inscricao, responseDTOS);
         return ResponseEntity.ok(inscricaoOutput);
     }
+
+
 }

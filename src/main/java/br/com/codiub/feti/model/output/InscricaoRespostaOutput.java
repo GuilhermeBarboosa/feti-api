@@ -17,6 +17,7 @@ public class InscricaoRespostaOutput extends DefaultEntityDTO {
     private String pergunta;
     private Long idAlternativa;
     private String alternativa;
+    private Integer pontuacao;
     public InscricaoRespostaOutput(InscricaoResposta inscricaoResposta) {
         this.id = inscricaoResposta.getId();
         this.idInscricao = inscricaoResposta.getInscricao().getId();
@@ -24,6 +25,7 @@ public class InscricaoRespostaOutput extends DefaultEntityDTO {
         this.pergunta = inscricaoResposta.getPergunta().getPergunta();
         this.idAlternativa = inscricaoResposta.getAlternativa().getId();
         this.alternativa = inscricaoResposta.getAlternativa().getAlternativa();
+        this.pontuacao = inscricaoResposta.getAlternativa().getPontuacao();
         this.setActived(inscricaoResposta.getActived());
         this.setCreated(inscricaoResposta.getCreated());
         this.setUpdated(inscricaoResposta.getUpdated());

@@ -15,7 +15,7 @@ public class ApiException extends RuntimeException {
     public ApiException(String message) {
         super(message);
         errorResponse = new ErrorResponse();
-        errorResponse.setDetails("");
+        errorResponse.setDetails(message);
         errorResponse.setMessage(Collections.singletonList(message));
         errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
         errorResponse.setStatus(HttpStatus.BAD_REQUEST);
@@ -39,5 +39,6 @@ public class ApiException extends RuntimeException {
         errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
         errorResponse.setStatus(HttpStatus.BAD_REQUEST);
     }
+
 
 }

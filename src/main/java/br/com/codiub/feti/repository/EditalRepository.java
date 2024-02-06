@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface EditalRepository extends JpaRepository<Edital, Long> {
 
+    @Query("select e from Edital e where e.actived = true")
     List<Edital> findAll();
 
     Optional<Edital> findById(Long id);
@@ -21,5 +22,5 @@ public interface EditalRepository extends JpaRepository<Edital, Long> {
     @Query("select e from Edital e where e.id = :id and e.actived = false")
     Optional<Edital> findByIdDesactived(Long id);
 
-
+    Optional<Edital> findByEdital(String edital);
 }
