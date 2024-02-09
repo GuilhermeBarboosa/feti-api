@@ -1,5 +1,6 @@
 package br.com.codiub.feti.repository;
 
+import br.com.codiub.feti.model.output.GetQtdFuncaoByEditalOutput;
 import br.com.codiub.feti.model.output.QuantidadeInscricaoOutput;
 import br.com.codiub.feti.model.output.QuantidadeAllOutput;
 import br.com.codiub.feti.model.output.QuantidadeUserByMesOutput;
@@ -66,5 +67,32 @@ public class DashboardRepository  {
                 .unwrap(NativeQuery.class)
                 .setResultTransformer(Transformers.aliasToBean(QuantidadeAllOutput.class))
                 .getSingleResult();
+    }
+
+    public List<GetQtdFuncaoByEditalOutput> getQtdFuncaoByEdital(Long id){
+        String sql = "SELECT " +
+                "    e.edital AS edital, " +
+                "    f.funcao AS funcao, " +
+                "    CAST(COUNT(i.id) AS INTEGER) AS quantidade_inscritos " +
+                "FROM " +
+                "    public.editais e " +
+                "INNER JOIN " +
+                "    public.inscricao i ON e.id = i.edital " +
+                "INNER JOIN " +
+                "    public.funcoes f ON i.funcao = f.id " +
+                "WHERE " +
+                "    e.id = " + id + " " +
+                "    AND e.actived = true " +
+                "    AND i.actived = true " +
+                "    AND f.actived = true " +
+                "GROUP BY " +
+                "    e.edital, f.funcao " +
+                "ORDER BY " +
+                "    e.edital, f.funcao";
+
+        return (List<GetQtdFuncaoByEditalOutput>) entityManager.createNativeQuery(sql)
+                .unwrap(NativeQuery.class)
+                .setResultTransformer(Transformers.aliasToBean(GetQtdFuncaoByEditalOutput.class))
+                .getResultList();
     }
 }

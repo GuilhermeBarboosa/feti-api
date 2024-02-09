@@ -1,5 +1,6 @@
 package br.com.codiub.feti.api.service;
 
+import br.com.codiub.feti.model.output.GetQtdFuncaoByEditalOutput;
 import br.com.codiub.feti.model.output.QuantidadeInscricaoOutput;
 import br.com.codiub.feti.model.output.QuantidadeAllOutput;
 import br.com.codiub.feti.model.output.QuantidadeUserByMesOutput;
@@ -27,5 +28,9 @@ public class DashboardService {
 
     public QuantidadeAllOutput quantidadeAll() {
         return dashboardRepository.getQuantidadeAll();
+    }
+
+    public List<GetQtdFuncaoByEditalOutput> inscricaoFuncaoByEdital(Long id) {
+        return dashboardRepository.getQtdFuncaoByEdital(id);
     }
 }
