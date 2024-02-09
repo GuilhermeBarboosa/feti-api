@@ -146,6 +146,10 @@ public class EditalService {
     public Optional<Edital> findByEdital(String edital) {
        return this.editalRepository.findByEdital(edital);
     }
+
+    public void deleteById(Long id) {
+        this.editalRepository.deleteById(id);
+    }
 }
 
 

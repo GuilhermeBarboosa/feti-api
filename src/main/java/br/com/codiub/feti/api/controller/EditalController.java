@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +42,7 @@ public class EditalController {
     public ResponseEntity<?> save(@Valid @RequestBody EditalInput editalInput) {
         if (this.editalService.findByEdital(editalInput.getEdital()).isPresent()) {
             return ResponseEntity.badRequest().body(new Exception("Edital já cadastrado"));
-        }else{
+        } else {
             Edital createdEdital = editalService.save(editalInput);
             EditalOutput editalOutput = new EditalOutput(createdEdital);
             return ResponseEntity.ok(editalOutput);
@@ -48,9 +50,22 @@ public class EditalController {
     }
 
     @PostMapping("/uploadFile/{id}")
-    public ResponseEntity<?> saveFile(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
-        this.editalService.saveFile(file, id);
-        return ResponseEntity.ok("Arquivo inserido com sucesso");
+    public ResponseEntity<?> saveFile(@RequestParam("file") @Null MultipartFile file, @PathVariable Long id) {
+        try {
+            // Lógica para salvar o arquivo
+            this.editalService.saveFile(file, id);
+            return ResponseEntity.ok("Arquivo inserido com sucesso");
+        } catch (Exception e) {
+            if (e instanceof MissingServletRequestPartException) {
+                // Tratar a exceção específica
+                this.editalService.deleteById(id);
+                return ResponseEntity.badRequest().body(new Exception("Arquivo não encontrado na requisição"));
+            } else {
+                // Tratar outras exceções
+                this.editalService.deleteById(id);
+                return ResponseEntity.badRequest().body(new Exception("Erro ao salvar arquivo"));
+            }
+        }
     }
 
     @GetMapping
