@@ -84,6 +84,10 @@ public class InscricaoRespostaService {
     public List<InscricaoResposta> findByInscricao(Long id) {
         return InscricaoRespostaRepository.findByInscricao(id);
     }
+
+    public void delete(Long idInscricao) {
+        InscricaoRespostaRepository.deleteByInscricao(idInscricao);
+    }
 }
 
 

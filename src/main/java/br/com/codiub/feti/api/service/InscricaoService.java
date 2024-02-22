@@ -112,6 +112,10 @@ public class InscricaoService {
 
         return inscricaoRepository.save(inscricao);
     }
+
+    public void delete(Long idInscricao) {
+        inscricaoRepository.deleteById(idInscricao);
+    }
 }
 
 

@@ -49,7 +49,7 @@ public class InscricaoController {
         InscricaoAllOutput inscricaoOutput = new InscricaoAllOutput(inscricaoCreated, inscricaoRespostaOutput);
 
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(inscricaoOutput);
     }
 
     @GetMapping

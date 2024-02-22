@@ -23,4 +23,6 @@ public interface InscricaoRespostaRepository extends JpaRepository<InscricaoResp
 
     @Query("select e from InscricaoResposta e where e.inscricao.id = :id and e.actived = true")
     List<InscricaoResposta> findByInscricao(Long id);
+
+    void deleteByInscricao(Long inscricao);
 }
