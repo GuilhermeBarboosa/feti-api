@@ -61,6 +61,7 @@ public class UserService implements UserDetailsService {
         user.setBairro(userInput.getBairro());
         user.setCep(userInput.getCep());
         user.setCidade(userInput.getCidade());
+        user.setRua(userInput.getRua());
         user.setCpf(userInput.getCpf());
         user.setData_de_nascimento(userInput.getData_de_nascimento());
         user.setTelefone(userInput.getTelefone());
