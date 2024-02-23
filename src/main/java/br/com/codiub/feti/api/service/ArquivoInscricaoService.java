@@ -8,7 +8,6 @@ import org.springframework.core.io.Resource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -58,16 +57,16 @@ public class ArquivoInscricaoService {
     }
 
 
-    public List<ArquivoInscricao> save(List<ArquivoInscricaoInput> arquivoInscricaoInput) {
+    public List<ArquivoInscricao> save(List<ArquivoInscricaoInput> arquivoInscricaoInput, Long idInscricao) {
         List<ArquivoInscricao> responseArquivo = new ArrayList();
         for (ArquivoInscricaoInput arquivo : arquivoInscricaoInput) {
             ArquivoInscricao arquivoInscricao = modelMapper.map(arquivo, ArquivoInscricao.class);
-            arquivoInscricao.setInscricao(inscricaoService.findById(arquivo.getInscricao()));
+            arquivoInscricao.setInscricao(inscricaoService.findById(idInscricao));
             arquivoInscricao.setCaminho_arquivo(
                     arquivo.getNome_arquivo()
                             .replaceAll("\\s", "")
                             .toLowerCase() +
-                            "{id-" + arquivo.getInscricao() + "}"
+                            "{id-" + idInscricao + "}"
             );
             responseArquivo.add(arquivoInscricaoRepository.save(arquivoInscricao));
         }

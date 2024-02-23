@@ -1,22 +1,21 @@
 package br.com.codiub.feti.api.controller;
 
 
+import br.com.codiub.feti.api.service.ArquivoInscricaoService;
 import br.com.codiub.feti.api.service.InscricaoRespostaService;
 import br.com.codiub.feti.api.service.InscricaoService;
 import br.com.codiub.feti.api.service.UserService;
+import br.com.codiub.feti.model.entity.ArquivoInscricao;
 import br.com.codiub.feti.model.entity.Inscricao;
 import br.com.codiub.feti.model.entity.InscricaoResposta;
-import br.com.codiub.feti.model.input.EditInscricaoInput;
-import br.com.codiub.feti.model.input.InscricaoInput;
-import br.com.codiub.feti.model.input.PerguntaRespostaInput;
-import br.com.codiub.feti.model.output.InscricaoAllOutput;
-import br.com.codiub.feti.model.output.InscricaoOutput;
-import br.com.codiub.feti.model.output.InscricaoRespostaOutput;
+import br.com.codiub.feti.model.input.*;
+import br.com.codiub.feti.model.output.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,25 +30,32 @@ public class InscricaoController {
 
     @Autowired
     private final InscricaoService inscricaoService;
-
+    @Autowired
+    private final ArquivoInscricaoService arquivoInscricaoService;
     @Autowired
     private final InscricaoRespostaService inscricaoRespostaService;
     @Autowired
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody InscricaoInput inscricaoInput) {
+    public ResponseEntity<?> save(@Valid @RequestBody InscricaoWithArquivosInput inscricaoWithArquivosInput) {
+
+        InscricaoInput inscricaoInput = inscricaoWithArquivosInput.getInscricaoInput();
         Inscricao inscricaoCreated = this.inscricaoService.save(inscricaoInput);
         List<InscricaoResposta> listInscricaoResposta =
                 this.inscricaoRespostaService.save(inscricaoInput.getPerguntaResposta(), inscricaoCreated);
-
         List<InscricaoRespostaOutput> inscricaoRespostaOutput = listInscricaoResposta.stream()
                 .map(InscricaoRespostaOutput::new)
                 .collect(Collectors.toList());
         InscricaoAllOutput inscricaoOutput = new InscricaoAllOutput(inscricaoCreated, inscricaoRespostaOutput);
 
+        List<ArquivoInscricao> createdArquivoInscricao = this.arquivoInscricaoService.save(inscricaoWithArquivosInput.getArquivoInscricaoInput(), inscricaoCreated.getId());
+        List<ArquivoInscricaoOutput> arquivoInscricaoOutputs = createdArquivoInscricao.stream()
+                .map(ArquivoInscricaoOutput::new)
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(inscricaoOutput);
+        InscricaoWithArquivosOutput inscricaoWithArquivosOutput = new InscricaoWithArquivosOutput(inscricaoOutput, arquivoInscricaoOutputs);
+        return ResponseEntity.ok(inscricaoWithArquivosOutput);
     }
 
     @GetMapping
