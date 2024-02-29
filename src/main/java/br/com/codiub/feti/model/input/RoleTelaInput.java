@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class FuncaoInput {
-   private String funcao;
-   private Long edital;
+public class RoleTelaInput {
+    private Long tela;
+    private Long role;
 }

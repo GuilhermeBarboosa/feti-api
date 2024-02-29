@@ -5,7 +5,7 @@
 -- Dumped from database version 15.1
 -- Dumped by pg_dump version 15.1
 
--- Started on 2024-02-09 10:40:04
+-- Started on 2024-02-29 08:53:45
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -39,6 +39,23 @@ CREATE TABLE public.alternativas (
 
 
 ALTER TABLE public.alternativas OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 34928)
+-- Name: arquivos_inscricao; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.arquivos_inscricao (
+    id bigint NOT NULL,
+    caminho_arquivo character varying(255),
+    inscricao bigint,
+    created timestamp with time zone,
+    updated timestamp with time zone,
+    actived boolean
+);
+
+
+ALTER TABLE public.arquivos_inscricao OWNER TO postgres;
 
 --
 -- TOC entry 224 (class 1259 OID 26798)
@@ -114,12 +131,36 @@ CREATE SEQUENCE public.id_seq_alternativa
 ALTER TABLE public.id_seq_alternativa OWNER TO postgres;
 
 --
--- TOC entry 3426 (class 0 OID 0)
+-- TOC entry 3456 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: id_seq_alternativa; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.id_seq_alternativa OWNED BY public.alternativas.id;
+
+
+--
+-- TOC entry 236 (class 1259 OID 34938)
+-- Name: id_seq_arquivos_inscricao; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.id_seq_arquivos_inscricao
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.id_seq_arquivos_inscricao OWNER TO postgres;
+
+--
+-- TOC entry 3457 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: id_seq_arquivos_inscricao; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.id_seq_arquivos_inscricao OWNED BY public.arquivos_inscricao.id;
 
 
 --
@@ -138,7 +179,7 @@ CREATE SEQUENCE public.id_seq_edital
 ALTER TABLE public.id_seq_edital OWNER TO postgres;
 
 --
--- TOC entry 3427 (class 0 OID 0)
+-- TOC entry 3458 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: id_seq_edital; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -162,7 +203,7 @@ CREATE SEQUENCE public.id_seq_funcao
 ALTER TABLE public.id_seq_funcao OWNER TO postgres;
 
 --
--- TOC entry 3428 (class 0 OID 0)
+-- TOC entry 3459 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: id_seq_funcao; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -219,7 +260,7 @@ CREATE SEQUENCE public.id_seq_inscricao_resposta
 ALTER TABLE public.id_seq_inscricao_resposta OWNER TO postgres;
 
 --
--- TOC entry 3429 (class 0 OID 0)
+-- TOC entry 3460 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: id_seq_inscricao_resposta; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -260,7 +301,7 @@ CREATE SEQUENCE public.id_seq_pergunta
 ALTER TABLE public.id_seq_pergunta OWNER TO postgres;
 
 --
--- TOC entry 3430 (class 0 OID 0)
+-- TOC entry 3461 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: id_seq_pergunta; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -298,13 +339,28 @@ CREATE SEQUENCE public.id_seq_pontuacao
 ALTER TABLE public.id_seq_pontuacao OWNER TO postgres;
 
 --
--- TOC entry 3431 (class 0 OID 0)
+-- TOC entry 3462 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: id_seq_pontuacao; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.id_seq_pontuacao OWNED BY public.pontuacao.id;
 
+
+--
+-- TOC entry 240 (class 1259 OID 34960)
+-- Name: id_seq_role_tela; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.id_seq_role_tela
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.id_seq_role_tela OWNER TO postgres;
 
 --
 -- TOC entry 214 (class 1259 OID 26729)
@@ -353,12 +409,50 @@ CREATE SEQUENCE public.id_seq_situacao
 ALTER TABLE public.id_seq_situacao OWNER TO postgres;
 
 --
--- TOC entry 3432 (class 0 OID 0)
+-- TOC entry 3463 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: id_seq_situacao; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.id_seq_situacao OWNED BY public.situacao.id;
+
+
+--
+-- TOC entry 237 (class 1259 OID 34939)
+-- Name: telas; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.telas (
+    id bigint NOT NULL,
+    identificador character varying(255),
+    descricao character varying(255)
+);
+
+
+ALTER TABLE public.telas OWNER TO postgres;
+
+--
+-- TOC entry 239 (class 1259 OID 34959)
+-- Name: id_seq_tela; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.id_seq_tela
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.id_seq_tela OWNER TO postgres;
+
+--
+-- TOC entry 3464 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: id_seq_tela; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.id_seq_tela OWNED BY public.telas.id;
 
 
 --
@@ -395,6 +489,20 @@ CREATE TABLE public.inscricao (
 
 
 ALTER TABLE public.inscricao OWNER TO postgres;
+
+--
+-- TOC entry 238 (class 1259 OID 34944)
+-- Name: role_tela; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.role_tela (
+    id bigint NOT NULL,
+    tela bigint,
+    role bigint
+);
+
+
+ALTER TABLE public.role_tela OWNER TO postgres;
 
 --
 -- TOC entry 215 (class 1259 OID 26730)
@@ -436,7 +544,7 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 3408 (class 0 OID 26792)
+-- TOC entry 3432 (class 0 OID 26792)
 -- Dependencies: 222
 -- Data for Name: alternativas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -446,8 +554,6 @@ COPY public.alternativas (id, alternativa, pergunta, actived, created, updated, 
 4	MBA	1	t	2024-01-01 00:00:00-03	2024-01-01 00:00:00-03	20
 5	Faculdade	2	t	2024-01-01 00:00:00-03	2024-01-01 00:00:00-03	5
 6	Online	2	t	2024-01-01 00:00:00-03	2024-01-01 00:00:00-03	3
-7	Sim	3	t	2024-01-01 00:00:00-03	2024-01-01 00:00:00-03	10
-1	sdasdsa	3	t	2024-01-23 08:34:13.843693-03	2024-01-23 10:19:30.17353-03	3
 8	Não	3	t	2024-01-01 00:00:00-03	2024-01-23 10:19:35.30831-03	7
 9	Ensino fundamental incompleto	4	t	2024-01-01 00:00:00-03	2024-01-01 00:00:00-03	1
 12	Curso técnico ou profissionalizante de panificação	6	t	2024-01-23 08:35:50.653797-03	2024-01-23 08:35:50.653797-03	4
@@ -456,11 +562,26 @@ COPY public.alternativas (id, alternativa, pergunta, actived, created, updated, 
 11	Ensino médio completo	4	t	2024-01-01 00:00:00-03	2024-01-01 00:00:00-03	6
 14	teste	8	t	2024-02-09 08:11:51.98685-03	2024-02-09 08:11:51.98685-03	1
 15	abc	9	t	2024-02-09 09:31:47.889964-03	2024-02-09 09:31:47.889964-03	12
+1	Sim	3	t	2024-01-23 08:34:13.843693-03	2024-02-21 13:25:38.576879-03	3
 \.
 
 
 --
--- TOC entry 3410 (class 0 OID 26798)
+-- TOC entry 3445 (class 0 OID 34928)
+-- Dependencies: 235
+-- Data for Name: arquivos_inscricao; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.arquivos_inscricao (id, caminho_arquivo, inscricao, created, updated, actived) FROM stdin;
+150	aaa{id-1104}	1104	2024-02-23 10:19:47.280619-03	2024-02-23 10:19:47.280619-03	t
+151	bbb{id-1104}	1104	2024-02-23 10:19:47.285602-03	2024-02-23 10:19:47.285602-03	t
+152	aaa{id-1105}	1105	2024-02-23 10:20:57.3253-03	2024-02-23 10:20:57.3253-03	t
+153	bbb{id-1105}	1105	2024-02-23 10:20:57.329295-03	2024-02-23 10:20:57.329295-03	t
+\.
+
+
+--
+-- TOC entry 3434 (class 0 OID 26798)
 -- Dependencies: 224
 -- Data for Name: editais; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -470,12 +591,14 @@ COPY public.editais (id, edital, data_inicio, data_fim, qtd_vagas, arquivo, acti
 39	testeeeedfdsfsdesdasdase	2025-11-22	2025-11-22	23	testeeeedfdsfsdesdasdase	f	2024-02-08 09:09:06.672052-03	2024-02-09 08:10:58.705273-03
 49	Edital secundario	2023-11-22	2025-11-22	23	Edital secundario	t	2024-02-09 08:11:05.520281-03	2024-02-09 08:11:36.636457-03
 51	Edital ABC	2023-11-22	2025-11-22	23	Edital ABC	t	2024-02-09 09:30:55.943534-03	2024-02-09 09:30:55.943534-03
+54	aaaaa aaa	2025-11-22	2025-11-22	23	aaaaa aaa	f	2024-02-23 11:35:42.512155-03	2024-02-26 11:00:13.316549-03
+53	uuuuuuuuuu	2023-11-22	2025-11-22	23	aaaa	f	2024-02-23 11:35:34.035898-03	2024-02-26 11:00:14.987047-03
 7	Edital Teste	2024-01-14	2025-01-31	25	editalteste	t	2024-01-16 12:39:59.88762-03	2024-01-29 08:10:13.861955-03
 \.
 
 
 --
--- TOC entry 3404 (class 0 OID 26767)
+-- TOC entry 3428 (class 0 OID 26767)
 -- Dependencies: 218
 -- Data for Name: flyway_schema_history; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -486,7 +609,7 @@ COPY public.flyway_schema_history (installed_rank, version, description, type, s
 
 
 --
--- TOC entry 3407 (class 0 OID 26782)
+-- TOC entry 3431 (class 0 OID 26782)
 -- Dependencies: 221
 -- Data for Name: funcoes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -502,39 +625,33 @@ COPY public.funcoes (id, funcao, actived, created, updated, edital) FROM stdin;
 
 
 --
--- TOC entry 3413 (class 0 OID 26840)
+-- TOC entry 3437 (class 0 OID 26840)
 -- Dependencies: 227
 -- Data for Name: inscricao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.inscricao (id, usuario, situacao, actived, created, updated, edital, funcao, pontuacao) FROM stdin;
-1009	9	1	t	2024-02-08 13:19:49.592555-03	2024-02-08 13:19:49.592555-03	7	2	4
-1010	13	1	t	2024-02-08 13:20:42.864218-03	2024-02-08 13:20:42.864218-03	7	2	15
-1011	9	1	t	2024-02-09 08:12:01.433436-03	2024-02-09 08:12:01.433436-03	49	50	1
-1012	9	1	t	2024-02-09 09:31:57.173419-03	2024-02-09 09:31:57.173419-03	51	52	12
+1105	9	1	t	2024-02-23 10:20:57.31033-03	2024-02-23 10:20:57.31033-03	51	52	12
+1104	13	1	t	2024-02-23 10:19:47.230456-03	2024-02-26 11:04:14.643226-03	7	2	5
 \.
 
 
 --
--- TOC entry 3419 (class 0 OID 26893)
+-- TOC entry 3443 (class 0 OID 26893)
 -- Dependencies: 233
 -- Data for Name: inscricao_respostas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.inscricao_respostas (id, inscricao, created, updated, actived, pergunta, alternativa) FROM stdin;
-38	1009	2024-02-08 13:19:49.648554-03	2024-02-08 13:19:49.648554-03	t	4	9
-39	1009	2024-02-08 13:19:49.662555-03	2024-02-08 13:19:49.662555-03	t	3	1
-40	1009	2024-02-08 13:19:49.666554-03	2024-02-08 13:19:49.666554-03	t	6	13
-41	1010	2024-02-08 13:20:42.869217-03	2024-02-08 13:20:42.869217-03	t	4	9
-42	1010	2024-02-08 13:20:42.873217-03	2024-02-08 13:20:42.873217-03	t	3	7
-43	1010	2024-02-08 13:20:42.88022-03	2024-02-08 13:20:42.88022-03	t	6	12
-44	1011	2024-02-09 08:12:01.445481-03	2024-02-09 08:12:01.446473-03	t	8	14
-45	1012	2024-02-09 09:31:57.18749-03	2024-02-09 09:31:57.18749-03	t	9	15
+187	1104	2024-02-23 10:19:47.264626-03	2024-02-23 10:19:47.264626-03	t	4	9
+188	1104	2024-02-23 10:19:47.270652-03	2024-02-23 10:19:47.270652-03	t	3	8
+189	1104	2024-02-23 10:19:47.274643-03	2024-02-23 10:19:47.274643-03	t	6	12
+190	1105	2024-02-23 10:20:57.322309-03	2024-02-23 10:20:57.322309-03	t	9	15
 \.
 
 
 --
--- TOC entry 3405 (class 0 OID 26776)
+-- TOC entry 3429 (class 0 OID 26776)
 -- Dependencies: 219
 -- Data for Name: perguntas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -552,7 +669,7 @@ COPY public.perguntas (id, pergunta, created, updated, actived, funcao) FROM std
 
 
 --
--- TOC entry 3417 (class 0 OID 26882)
+-- TOC entry 3441 (class 0 OID 26882)
 -- Dependencies: 231
 -- Data for Name: pontuacao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -562,7 +679,20 @@ COPY public.pontuacao (id, pontuacao, inscricao) FROM stdin;
 
 
 --
--- TOC entry 3401 (class 0 OID 26730)
+-- TOC entry 3448 (class 0 OID 34944)
+-- Dependencies: 238
+-- Data for Name: role_tela; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.role_tela (id, tela, role) FROM stdin;
+1	1	3
+2	2	3
+3	5	3
+\.
+
+
+--
+-- TOC entry 3425 (class 0 OID 26730)
 -- Dependencies: 215
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -570,11 +700,12 @@ COPY public.pontuacao (id, pontuacao, inscricao) FROM stdin;
 COPY public.roles (id, role) FROM stdin;
 1	ADMIN
 2	CANDIDATO
+3	SECRETARIO
 \.
 
 
 --
--- TOC entry 3414 (class 0 OID 26845)
+-- TOC entry 3438 (class 0 OID 26845)
 -- Dependencies: 228
 -- Data for Name: situacao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -586,31 +717,60 @@ COPY public.situacao (id, situacao, created, updated, actived) FROM stdin;
 
 
 --
--- TOC entry 3402 (class 0 OID 26754)
+-- TOC entry 3447 (class 0 OID 34939)
+-- Dependencies: 237
+-- Data for Name: telas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.telas (id, identificador, descricao) FROM stdin;
+1	user	Tabela de usuário
+2	user-register	Registrar usuário
+3	user-info	Informação sobre usuário
+4	user-edit	Editar usuário
+5	dashboard	Dashboard
+6	profile	Mostrar perfil
+7	info-all-inscricao	Informação sobre inscrição
+8	edital	Tabela de editais
+9	edital-register	Registrar editais
+10	edital-info	Informação sobre editais
+11	edital-edit	Editar editais
+12	funcao	Tabela de funções
+13	funcao-register	Registrar funções
+14	funcao-info	Informação sobre funções
+15	funcao-edit	Editar funções
+16	pergunta	Tabela de perguntas
+17	pergunta-register	Registrar perguntas
+18	pergunta-info	Informação sobre perguntas
+19	pergunta-edit	Editar perguntas
+20	alternativa	Tabela de alternativas
+21	alternativa-register	Registrar alternativas
+22	alternativa-info	Informação sobre alternativas
+23	alternativa-edit	Editar alternativas
+\.
+
+
+--
+-- TOC entry 3426 (class 0 OID 26754)
 -- Dependencies: 216
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.users (id, name, email, password, role, actived, created, updated, data_de_nascimento, rua, bairro, telefone, cpf, cep, cidade) FROM stdin;
-1	Root	root@codiub.com.br	$2a$10$6FQr1U2zGloNMuYpE27BBuIQ60N7uJfwoNe5TPERuQqXE5swHIeou	1	t	2024-01-15 00:00:00-03	2024-01-15 10:18:51.850795-03	\N	\N	\N	\N	\N	\N	\N
-19	gfhgf	hfghf@gmail.com	$2a$10$yUHPiIR9Rh/XPub.6HHhAuH5MAT997Y4IpyAdSbIgtFb7/cg5Hkyi	2	t	2024-05-09 09:22:18.683015-03	2024-02-09 09:22:18.683015-03	\N	\N	\N	\N	\N	\N	\N
-20	sadfsa	fgdf@gmail.com	$2a$10$d8t/0kbYyONB0bgFYuOQ2e31i.z3RhQin5.j3eyRnXVFARHlAgwMO	1	t	2024-05-09 09:22:24.291179-03	2024-02-09 09:22:24.291179-03	\N	\N	\N	\N	\N	\N	\N
-21	fdsfvsdf	sfsad@gmail.com	$2a$10$SM909F0/arayL.ohL62gRuxfTfGp9uluuqrbUEMLB/f50lkhT7My.	2	t	2024-05-09 09:22:30.63088-03	2024-02-09 09:22:30.63088-03	\N	\N	\N	\N	\N	\N	\N
-22	fdsfsd	sdsa@gmail.com	$2a$10$dm9dsH2g9VHcnI3dcL8Mf.sgrmIndnlap7Knjrm9W5P6yxJ6hSnyi	2	t	2024-05-09 09:22:36.175755-03	2024-02-09 09:22:36.175755-03	\N	\N	\N	\N	\N	\N	\N
 18	yyy	yyyy@gmail.com	$2a$10$vw0w5Xg0jii5p8/EScHnPOwNif98va0.rkZTD0wUzbWe1gzDvmpSO	1	f	2024-05-09 09:22:10.920723-03	2024-02-09 10:28:58.048069-03	\N	\N	\N	\N	\N	\N	\N
 9	Guilherme Barbosa Rocha	guilherme.strg@gmail.com	$2a$10$7nvBZsA4OQ5WOehJRVryPOKTv6FGwtKs8sKNTOIdHUu3daFVmEwTq	2	t	2024-01-19 10:20:59.929589-03	2024-01-30 13:00:28.798145-03	2000-11-29 00:00:00-02	Rua Arnaldo	Jardins	34 98403-9344	019.733.946-85	01973394565	Uberaba
 16	aaaa	aaa@gmail.com	$2a$10$Rv9GV3a2G4l7Q8EwDww5MeMFYntc8LAOqgldMpmgTk5ilX7DbrXo6	2	t	2024-02-09 09:21:15.962845-03	2024-02-09 09:21:15.962845-03	\N	\N	\N	\N	\N	\N	\N
 17	bbbb	bbb@gmailc.om	$2a$10$MzF5jZVld4mWL1ajmVhuDuVSy4gYKsvEW0UQjaAkWBPuf./bkh/cW	2	t	2024-02-09 09:21:24.015355-03	2024-02-09 09:21:24.015355-03	\N	\N	\N	\N	\N	\N	\N
-13	Guilherme Barbosa Rocha	guilherme@gmail.com	$2a$10$LRUOMN4sk9vLi.HaX9IpceN5LINYTcmzXaCoBw.SRCBS5hQ3YPMLq	2	t	2024-03-08 13:20:33.813486-03	2024-02-08 13:20:33.813486-03	2000-11-29 00:00:00-02	Rua Arnaldo Augusto dos Reis	Jardim	(34) 98403-9344	019.733.946-85	38035-205	Uberaba
-14	teste	teste@gmail.com	$2a$10$bQIG3rcEBqXwNoMQkrMZ7ecKe40GMv0vbZeikpWGXptCRSKBfvtAu	1	t	2024-03-09 09:20:59.949817-03	2024-02-09 09:20:59.949817-03	\N	\N	\N	\N	\N	\N	\N
 15	testeeee	testeeee@gmail.com	$2a$10$CSFIfQAFTAm1/M45iAenMebFudVTglT.xgv7SKkReLkEP0NpWWeba	2	t	2024-01-09 09:21:06.440072-03	2024-02-09 09:21:06.440072-03	\N	\N	\N	\N	\N	\N	\N
-23	dsadsa	dasdas@gmail.com	$2a$10$AOW.Z3mnMXFRRFf0Zzsw0eUeimh6fBQ3mKAnfKS0/PIMDEzyeyw1q	1	t	2024-02-09 09:22:42.462168-03	2024-02-09 09:22:42.462168-03	\N	\N	\N	\N	\N	\N	\N
-24	ghgf	ghf@gmail.com	$2a$10$q/VUwYgn7ke9aNd9Ta.11OBoc941XnEPpqOSrBM8bBG5AFm7KbQTq	1	t	2024-02-09 09:22:48.466826-03	2024-02-09 09:22:48.466826-03	\N	\N	\N	\N	\N	\N	\N
+14	teste	teste@gmail.com	$2a$10$7nvBZsA4OQ5WOehJRVryPOKTv6FGwtKs8sKNTOIdHUu3daFVmEwTq	1	t	2024-03-09 09:20:59.949817-03	2024-02-09 09:20:59.949817-03	\N	\N	\N	\N	\N	\N	\N
+19	gfhgf	hfghf@gmail.com	$2a$10$yUHPiIR9Rh/XPub.6HHhAuH5MAT997Y4IpyAdSbIgtFb7/cg5Hkyi	2	f	2024-05-09 09:22:18.683015-03	2024-02-22 10:15:26.012499-03	\N	\N	\N	\N	\N	\N	\N
+13	Guilherme Barbosa Rocha	guilherme@gmail.com	$2a$10$LRUOMN4sk9vLi.HaX9IpceN5LINYTcmzXaCoBw.SRCBS5hQ3YPMLq	2	t	2024-03-08 13:20:33.813486-03	2024-02-23 13:08:59.70983-03	2000-11-29 00:00:00-02	Rua Arnaldo Augusto dos Reis	Jardim	(34) 98403-9344	019.733.946-85	019.733.946-85	Uberaba
+1	Root	root@codiub.com.br	$2a$10$6FQr1U2zGloNMuYpE27BBuIQ60N7uJfwoNe5TPERuQqXE5swHIeou	1	t	2024-01-15 00:00:00-03	2024-02-23 13:15:19.784513-03	\N	0000000	00000000000	00 00000-0000	000.000.000-00	000.000.000-00	00000000
+28	AAA	a@a.com	$2a$10$N5XBw6oBiCRxls0X0.qFW.FGeMyuIuZdSC5P4yp5u4G/F.QLCIEra	3	t	2024-02-28 13:30:46.54283-03	2024-02-28 13:30:46.54283-03	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
 --
--- TOC entry 3433 (class 0 OID 0)
+-- TOC entry 3465 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: id_seq_alternativa; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -619,7 +779,16 @@ SELECT pg_catalog.setval('public.id_seq_alternativa', 15, true);
 
 
 --
--- TOC entry 3434 (class 0 OID 0)
+-- TOC entry 3466 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: id_seq_arquivos_inscricao; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.id_seq_arquivos_inscricao', 153, true);
+
+
+--
+-- TOC entry 3467 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: id_seq_edital; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -628,34 +797,34 @@ SELECT pg_catalog.setval('public.id_seq_edital', 1, false);
 
 
 --
--- TOC entry 3435 (class 0 OID 0)
+-- TOC entry 3468 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: id_seq_funcao; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.id_seq_funcao', 52, true);
+SELECT pg_catalog.setval('public.id_seq_funcao', 54, true);
 
 
 --
--- TOC entry 3436 (class 0 OID 0)
+-- TOC entry 3469 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: id_seq_inscricao; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.id_seq_inscricao', 1012, true);
+SELECT pg_catalog.setval('public.id_seq_inscricao', 1105, true);
 
 
 --
--- TOC entry 3437 (class 0 OID 0)
+-- TOC entry 3470 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: id_seq_inscricao_resposta; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.id_seq_inscricao_resposta', 45, true);
+SELECT pg_catalog.setval('public.id_seq_inscricao_resposta', 190, true);
 
 
 --
--- TOC entry 3438 (class 0 OID 0)
+-- TOC entry 3471 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: id_seq_pergunta; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -664,7 +833,7 @@ SELECT pg_catalog.setval('public.id_seq_pergunta', 9, true);
 
 
 --
--- TOC entry 3439 (class 0 OID 0)
+-- TOC entry 3472 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: id_seq_pontuacao; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -673,7 +842,16 @@ SELECT pg_catalog.setval('public.id_seq_pontuacao', 1, false);
 
 
 --
--- TOC entry 3440 (class 0 OID 0)
+-- TOC entry 3473 (class 0 OID 0)
+-- Dependencies: 240
+-- Name: id_seq_role_tela; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.id_seq_role_tela', 1, false);
+
+
+--
+-- TOC entry 3474 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: id_seq_roles; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -682,7 +860,7 @@ SELECT pg_catalog.setval('public.id_seq_roles', 1, false);
 
 
 --
--- TOC entry 3441 (class 0 OID 0)
+-- TOC entry 3475 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: id_seq_situacao; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -691,16 +869,34 @@ SELECT pg_catalog.setval('public.id_seq_situacao', 1, false);
 
 
 --
--- TOC entry 3442 (class 0 OID 0)
+-- TOC entry 3476 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: id_seq_tela; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.id_seq_tela', 1, false);
+
+
+--
+-- TOC entry 3477 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: id_seq_user; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.id_seq_user', 24, true);
+SELECT pg_catalog.setval('public.id_seq_user', 28, true);
 
 
 --
--- TOC entry 3237 (class 2606 OID 26804)
+-- TOC entry 3262 (class 2606 OID 34932)
+-- Name: arquivos_inscricao arquivos_inscricao_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.arquivos_inscricao
+    ADD CONSTRAINT arquivos_inscricao_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3252 (class 2606 OID 26804)
 -- Name: editais editais_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -709,7 +905,7 @@ ALTER TABLE ONLY public.editais
 
 
 --
--- TOC entry 3228 (class 2606 OID 26774)
+-- TOC entry 3243 (class 2606 OID 26774)
 -- Name: flyway_schema_history flyway_schema_history_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -718,7 +914,7 @@ ALTER TABLE ONLY public.flyway_schema_history
 
 
 --
--- TOC entry 3233 (class 2606 OID 26786)
+-- TOC entry 3248 (class 2606 OID 26786)
 -- Name: funcoes funcoes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -727,7 +923,7 @@ ALTER TABLE ONLY public.funcoes
 
 
 --
--- TOC entry 3226 (class 2606 OID 26758)
+-- TOC entry 3241 (class 2606 OID 26758)
 -- Name: users id_user; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -736,7 +932,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3239 (class 2606 OID 26844)
+-- TOC entry 3254 (class 2606 OID 26844)
 -- Name: inscricao inscricao_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -745,7 +941,7 @@ ALTER TABLE ONLY public.inscricao
 
 
 --
--- TOC entry 3245 (class 2606 OID 26897)
+-- TOC entry 3260 (class 2606 OID 26897)
 -- Name: inscricao_respostas inscricao_respostas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -754,7 +950,7 @@ ALTER TABLE ONLY public.inscricao_respostas
 
 
 --
--- TOC entry 3235 (class 2606 OID 26834)
+-- TOC entry 3250 (class 2606 OID 26834)
 -- Name: alternativas pk_alternativa; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -763,7 +959,7 @@ ALTER TABLE ONLY public.alternativas
 
 
 --
--- TOC entry 3224 (class 2606 OID 26736)
+-- TOC entry 3239 (class 2606 OID 26736)
 -- Name: roles pk_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -772,7 +968,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 3231 (class 2606 OID 26780)
+-- TOC entry 3246 (class 2606 OID 26780)
 -- Name: perguntas pk_id_pergunta; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -781,7 +977,7 @@ ALTER TABLE ONLY public.perguntas
 
 
 --
--- TOC entry 3243 (class 2606 OID 26886)
+-- TOC entry 3258 (class 2606 OID 26886)
 -- Name: pontuacao pontuacao_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -790,7 +986,16 @@ ALTER TABLE ONLY public.pontuacao
 
 
 --
--- TOC entry 3241 (class 2606 OID 26849)
+-- TOC entry 3266 (class 2606 OID 34948)
+-- Name: role_tela role_tela_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role_tela
+    ADD CONSTRAINT role_tela_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3256 (class 2606 OID 26849)
 -- Name: situacao situacao_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -799,7 +1004,16 @@ ALTER TABLE ONLY public.situacao
 
 
 --
--- TOC entry 3229 (class 1259 OID 26775)
+-- TOC entry 3264 (class 2606 OID 34943)
+-- Name: telas tela_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.telas
+    ADD CONSTRAINT tela_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3244 (class 1259 OID 26775)
 -- Name: flyway_schema_history_s_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -807,7 +1021,16 @@ CREATE INDEX flyway_schema_history_s_idx ON public.flyway_schema_history USING b
 
 
 --
--- TOC entry 3249 (class 2606 OID 26835)
+-- TOC entry 3279 (class 2606 OID 34933)
+-- Name: arquivos_inscricao arquivos_inscricao_inscricao_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.arquivos_inscricao
+    ADD CONSTRAINT arquivos_inscricao_inscricao_fkey FOREIGN KEY (inscricao) REFERENCES public.inscricao(id);
+
+
+--
+-- TOC entry 3270 (class 2606 OID 26835)
 -- Name: alternativas fk_alternativa_pergunta; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -816,7 +1039,7 @@ ALTER TABLE ONLY public.alternativas
 
 
 --
--- TOC entry 3248 (class 2606 OID 26807)
+-- TOC entry 3269 (class 2606 OID 26807)
 -- Name: funcoes fk_funcao_edital; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -825,7 +1048,7 @@ ALTER TABLE ONLY public.funcoes
 
 
 --
--- TOC entry 3247 (class 2606 OID 26787)
+-- TOC entry 3268 (class 2606 OID 26787)
 -- Name: perguntas fk_pergunta_funcao; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -834,7 +1057,7 @@ ALTER TABLE ONLY public.perguntas
 
 
 --
--- TOC entry 3246 (class 2606 OID 26759)
+-- TOC entry 3267 (class 2606 OID 26759)
 -- Name: users fk_user_role; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -843,7 +1066,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3250 (class 2606 OID 26872)
+-- TOC entry 3271 (class 2606 OID 26872)
 -- Name: inscricao inscricao_edital_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -852,7 +1075,7 @@ ALTER TABLE ONLY public.inscricao
 
 
 --
--- TOC entry 3251 (class 2606 OID 26877)
+-- TOC entry 3272 (class 2606 OID 26877)
 -- Name: inscricao inscricao_funcao_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -861,7 +1084,7 @@ ALTER TABLE ONLY public.inscricao
 
 
 --
--- TOC entry 3255 (class 2606 OID 26898)
+-- TOC entry 3276 (class 2606 OID 26898)
 -- Name: inscricao_respostas inscricao_respostas_inscricao_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -870,7 +1093,7 @@ ALTER TABLE ONLY public.inscricao_respostas
 
 
 --
--- TOC entry 3256 (class 2606 OID 26903)
+-- TOC entry 3277 (class 2606 OID 26903)
 -- Name: inscricao_respostas inscricao_respostas_pergunta_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -879,7 +1102,7 @@ ALTER TABLE ONLY public.inscricao_respostas
 
 
 --
--- TOC entry 3257 (class 2606 OID 26908)
+-- TOC entry 3278 (class 2606 OID 26908)
 -- Name: inscricao_respostas inscricao_respostas_resposta_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -888,7 +1111,7 @@ ALTER TABLE ONLY public.inscricao_respostas
 
 
 --
--- TOC entry 3252 (class 2606 OID 26862)
+-- TOC entry 3273 (class 2606 OID 26862)
 -- Name: inscricao inscricao_situacao_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -897,7 +1120,7 @@ ALTER TABLE ONLY public.inscricao
 
 
 --
--- TOC entry 3253 (class 2606 OID 26867)
+-- TOC entry 3274 (class 2606 OID 26867)
 -- Name: inscricao inscricao_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -906,7 +1129,7 @@ ALTER TABLE ONLY public.inscricao
 
 
 --
--- TOC entry 3254 (class 2606 OID 26887)
+-- TOC entry 3275 (class 2606 OID 26887)
 -- Name: pontuacao pontuacao_inscricao_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -914,7 +1137,25 @@ ALTER TABLE ONLY public.pontuacao
     ADD CONSTRAINT pontuacao_inscricao_fkey FOREIGN KEY (inscricao) REFERENCES public.inscricao(id) NOT VALID;
 
 
--- Completed on 2024-02-09 10:40:04
+--
+-- TOC entry 3280 (class 2606 OID 34954)
+-- Name: role_tela role_tela_role_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role_tela
+    ADD CONSTRAINT role_tela_role_fkey FOREIGN KEY (role) REFERENCES public.roles(id);
+
+
+--
+-- TOC entry 3281 (class 2606 OID 34949)
+-- Name: role_tela role_tela_tela_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role_tela
+    ADD CONSTRAINT role_tela_tela_fkey FOREIGN KEY (tela) REFERENCES public.telas(id);
+
+
+-- Completed on 2024-02-29 08:53:45
 
 --
 -- PostgreSQL database dump complete
