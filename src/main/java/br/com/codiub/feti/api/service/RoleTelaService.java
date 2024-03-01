@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +28,18 @@ public class RoleTelaService {
     private final RoleService roleService;
 
 
-    public RoleTela save(RoleTelaInput roleTelaInput) {
-
-        RoleTela roleTela = modelMapper.map(roleTelaInput, RoleTela.class);
-        roleTela.setTela(telaService.findById(roleTelaInput.getTela()));
-        roleTela.setRole(roleService.findById(roleTelaInput.getRole()));
-        return roleTelaRepository.save(roleTela);
+    public List<RoleTela> save(List<RoleTelaInput> roleTelaInput) {
+        List<RoleTela> roleTelas = new ArrayList<>();
+        for (RoleTelaInput roleTela : roleTelaInput) {
+            Optional<RoleTela> roleTelaResponse = roleTelaRepository.findByRoleByTela(roleTela.getRole(), roleTela.getTela());
+            if(!roleTelaResponse.isPresent()){
+                RoleTela roleTelaEntity = modelMapper.map(roleTela, RoleTela.class);
+                roleTelaEntity.setTela(telaService.findById(roleTela.getTela()));
+                roleTelaEntity.setRole(roleService.findById(roleTela.getRole()));
+                roleTelas.add(roleTelaRepository.save(roleTelaEntity));
+            }
+        }
+        return roleTelas;
     }
 
     public List<RoleTela> listAll() {
@@ -56,6 +64,10 @@ public class RoleTelaService {
 
     public List<RoleTela> findByRole(Long id) {
         return roleTelaRepository.findByRole(id);
+    }
+
+    public void deleteByRole(Long role) {
+        roleTelaRepository.deleteByRole(role);
     }
 }
 

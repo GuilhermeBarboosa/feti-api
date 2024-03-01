@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,18 +36,17 @@ public class RoleTelaController {
     private final InscricaoService inscricaoService;
 
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody RoleTelaInput roleTelaInput) {
-        RoleTela createdRoleTela = roleTelaService.save(roleTelaInput);
-        RoleTelaOutput roleTelaOutput = new RoleTelaOutput(createdRoleTela);
-        return ResponseEntity.ok(roleTelaOutput);
+    public ResponseEntity<?> save(@Valid @RequestBody List<RoleTelaInput> roleTelaInput) {
+        System.out.println();
+        List<RoleTela> createdRoleTela = roleTelaService.save(roleTelaInput);
+        List<RoleTelaOutput> responseDTOS = getRoleTelaOutputs(createdRoleTela);
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @GetMapping
     public ResponseEntity<List<RoleTelaOutput>> listAll() {
         List<RoleTela> roleTelas = roleTelaService.listAll();
-        List<RoleTelaOutput> responseDTOS = roleTelas.stream()
-                .map(RoleTelaOutput::new)
-                .collect(Collectors.toList());
+        List<RoleTelaOutput> responseDTOS = getRoleTelaOutputs(roleTelas);
         return ResponseEntity.ok(responseDTOS);
     }
 
@@ -54,9 +54,7 @@ public class RoleTelaController {
     @GetMapping("/role/{id}")
     public ResponseEntity<List<RoleTelaOutput>> listAllRole(@PathVariable Long id) {
         List<RoleTela> roleTelas = roleTelaService.findByRole(id);
-        List<RoleTelaOutput> responseDTOS = roleTelas.stream()
-                .map(RoleTelaOutput::new)
-                .collect(Collectors.toList());
+        List<RoleTelaOutput> responseDTOS = getRoleTelaOutputs(roleTelas);
         return ResponseEntity.ok(responseDTOS);
     }
 
@@ -68,17 +66,22 @@ public class RoleTelaController {
         return ResponseEntity.ok(roleTelaOutput);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid RoleTelaInput roleTelaInput) {
-        RoleTela updatedRoleTela = roleTelaService.updateById(id, roleTelaInput);
-        RoleTelaOutput roleTelaOutput = new RoleTelaOutput(updatedRoleTela);
-        return ResponseEntity.ok(roleTelaOutput);
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid List<RoleTelaInput> roleTelaInput) {
+        roleTelaService.deleteByRole(roleTelaInput.get(0).getRole());
+        return ResponseEntity.ok(save(roleTelaInput));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deactivateById(@PathVariable Long id) {
         roleTelaService.deactivateById(id);
         return ResponseEntity.ok().build();
+    }
+
+    private static List<RoleTelaOutput> getRoleTelaOutputs(List<RoleTela> createdRoleTela) {
+        List<RoleTelaOutput> responseDTOS = createdRoleTela.stream()
+                .map(RoleTelaOutput::new)
+                .collect(Collectors.toList());
+        return responseDTOS;
     }
 }
