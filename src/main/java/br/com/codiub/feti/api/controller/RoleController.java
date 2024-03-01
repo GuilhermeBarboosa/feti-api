@@ -11,6 +11,7 @@ import br.com.codiub.feti.model.output.RoleOutput;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,8 +57,9 @@ public class RoleController {
     public ResponseEntity<?> deactivateById(@PathVariable Long id) {
         roleTelaService.deleteByRole(id);
         roleService.desactivateById(id);
-        return ResponseEntity.ok("Role desativada com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\": \"Role desativada com sucesso\"}");
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<RoleOutput> getById(@PathVariable Long id) {
