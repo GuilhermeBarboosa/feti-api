@@ -1,17 +1,20 @@
 package br.com.codiub.feti.api.controller;
 
 import br.com.codiub.feti.api.service.RoleService;
+import br.com.codiub.feti.api.service.RoleTelaService;
+import br.com.codiub.feti.model.entity.Funcao;
 import br.com.codiub.feti.model.entity.Role;
+import br.com.codiub.feti.model.input.FuncaoInput;
+import br.com.codiub.feti.model.input.RoleInput;
+import br.com.codiub.feti.model.output.FuncaoOutput;
 import br.com.codiub.feti.model.output.RoleOutput;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +26,15 @@ public class RoleController {
     private ModelMapper modelMapper;
     @Autowired
     private final RoleService roleService;
+    @Autowired
+    private final RoleTelaService roleTelaService;
 
+    @PostMapping
+    public ResponseEntity<?> save(@Valid @RequestBody RoleInput roleInput) {
+        Role createdRole = roleService.save(roleInput);
+        RoleOutput roleOutput = new RoleOutput(createdRole);
+        return ResponseEntity.ok(roleOutput);
+    }
 
     @GetMapping
     public ResponseEntity<List<RoleOutput>> listAll() {
@@ -34,6 +45,19 @@ public class RoleController {
         return ResponseEntity.ok(responseDTOS);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid RoleInput roleInput) {
+        Role updatedRole = roleService.updateById(id, roleInput);
+        RoleOutput roleOutput = new RoleOutput(updatedRole);
+        return ResponseEntity.ok(roleOutput);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deactivateById(@PathVariable Long id) {
+        roleTelaService.deleteByRole(id);
+        roleService.desactivateById(id);
+        return ResponseEntity.ok("Role desativada com sucesso");
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoleOutput> getById(@PathVariable Long id) {
