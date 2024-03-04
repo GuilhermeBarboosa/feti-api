@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,9 @@ public class RoleTelaController {
 
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody List<RoleTelaInput> roleTelaInput) {
-        System.out.println();
+        if(!Objects.requireNonNull(this.listAllRole(roleTelaInput.get(0).getRole()).getBody()).isEmpty()){
+            this.roleTelaService.deleteByRole(roleTelaInput.get(0).getRole());
+        }
         List<RoleTela> createdRoleTela = roleTelaService.save(roleTelaInput);
         List<RoleTelaOutput> responseDTOS = getRoleTelaOutputs(createdRoleTela);
         return ResponseEntity.ok(responseDTOS);

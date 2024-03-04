@@ -45,7 +45,6 @@ public class UserService implements UserDetailsService {
     }
 
     public User updateById(Long id, UserInput userInput) {
-        System.out.println(userInput.toString());
         User user = findById(id);
         String password = "";
         if (userInput.getPassword().equals(user.getPassword())) {
