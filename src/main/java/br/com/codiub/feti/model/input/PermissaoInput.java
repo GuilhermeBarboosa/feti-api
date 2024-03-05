@@ -9,8 +9,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RoleTelaInput {
-    private Long tela;
-    private Long role;
-    private Long permissao;
+public class PermissaoInput {
+   private String permissao;
 }

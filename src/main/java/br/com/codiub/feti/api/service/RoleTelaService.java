@@ -26,6 +26,8 @@ public class RoleTelaService {
     private final TelaService telaService;
     @Autowired
     private final RoleService roleService;
+    @Autowired
+    private final PermissaoService permissaoService;
 
 
     public List<RoleTela> save(List<RoleTelaInput> roleTelaInput) {
@@ -36,6 +38,7 @@ public class RoleTelaService {
                 RoleTela roleTelaEntity = modelMapper.map(roleTela, RoleTela.class);
                 roleTelaEntity.setTela(telaService.findById(roleTela.getTela()));
                 roleTelaEntity.setRole(roleService.findById(roleTela.getRole()));
+                roleTelaEntity.setPermissao(permissaoService.findById(roleTela.getPermissao()));
                 roleTelas.add(roleTelaRepository.save(roleTelaEntity));
             }
         }
@@ -54,6 +57,7 @@ public class RoleTelaService {
         RoleTela roleTela = findById(id);
         roleTela.setTela(telaService.findById(roleTelaInput.getTela()));
         roleTela.setRole(roleService.findById(roleTelaInput.getRole()));
+        roleTela.setPermissao(permissaoService.findById(roleTelaInput.getPermissao()));
         return roleTelaRepository.save(roleTela);
     }
 

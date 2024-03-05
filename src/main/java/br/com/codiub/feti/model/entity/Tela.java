@@ -28,4 +28,10 @@ public class Tela {
     @Column(name = "descricao", nullable = false, length = 80)
     private String descricao;
 
+    @Size(max = 60)
+    @NotNull
+    @Column(name = "unica", nullable = false, length = 80)
+    private Boolean unica;
+
+
 }

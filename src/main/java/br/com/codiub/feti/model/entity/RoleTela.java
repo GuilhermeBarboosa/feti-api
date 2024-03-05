@@ -27,4 +27,10 @@ public class RoleTela {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role", nullable = false)
     private Role role;
+
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "permissao", nullable = false)
+    private Permissao permissao;
 }
